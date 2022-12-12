@@ -89,14 +89,10 @@ class Recipe(models.Model):
         verbose_name='Дата публикации'
     )
     cooking_time = models.IntegerField(
-        verbose_name='Время приготовления',
+        verbose_name='Время приготовления (в минутах)',
         default=0,
-        validators=(
-            MinValueValidator(
-                1,'Время приготовления не может быть меньше 1 минуты!'
-            )            
-        )
-    )
+        validators=[MinValueValidator(1)]
+    )    
     is_favorited = models.BooleanField(
         verbose_name='В списке избанного',
         default=False,
@@ -140,13 +136,9 @@ class IngredientRecipe(models.Model):
     amount = models.IntegerField(
         verbose_name='Количество ингредиентов',
         default=0,
-        validators=(
-            MinValueValidator(
-                1, 'Нужно больше ингредиентов!'
-            )
-        )
+        validators=[MinValueValidator(1, 'Значение должно быть больше нуля.')]
     )
-
+    
     class Meta:
         verbose_name = 'Ингридиент'
         verbose_name_plural = 'Ингредиенты в рецепте'
@@ -155,8 +147,7 @@ class IngredientRecipe(models.Model):
                 fields=['ingredient', 'recipe'],
                 name='unique_ingredient_recipe'
             )
-        ]
-        
+        ]        
 
     def __str__(self):
         return f'{self.recipe}: {self.ingredient.name}' 
