@@ -1,5 +1,5 @@
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 
 from users.models import User
 
@@ -13,7 +13,7 @@ class Ingredient(models.Model):
     )
     measurement_unit = models.CharField(
         max_length=50,
-        verbose_name='Единица измерения ингредиента'        
+        verbose_name='Единица измерения ингредиента'
     )
 
     class Meta:
@@ -58,12 +58,12 @@ class Recipe(models.Model):
 
     author = models.ForeignKey(
         User,
-        on_delete=models.CASCADE, 
-        related_name='author', 
+        on_delete=models.CASCADE,
+        related_name='author',
         verbose_name='Автор'
     )
     name = models.CharField(
-        max_length=256, 
+        max_length=256,
         verbose_name='Название Рецепта'
     )
     image = models.ImageField(
@@ -84,7 +84,7 @@ class Recipe(models.Model):
         related_name='tags',
         verbose_name='Тэг'
     )
-    pub_date = models.DateTimeField(        
+    pub_date = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата публикации'
     )
@@ -92,7 +92,7 @@ class Recipe(models.Model):
         verbose_name='Время приготовления (в минутах)',
         default=0,
         validators=[MinValueValidator(1)]
-    )    
+    )
     is_favorited = models.BooleanField(
         verbose_name='В списке избанного',
         default=False,
@@ -101,7 +101,6 @@ class Recipe(models.Model):
         verbose_name='В списке покупок',
         default=False,
     )
-
 
     class Meta:
         verbose_name = 'Рецепт'
@@ -138,7 +137,7 @@ class IngredientRecipe(models.Model):
         default=0,
         validators=[MinValueValidator(1, 'Значение должно быть больше нуля.')]
     )
-    
+
     class Meta:
         verbose_name = 'Ингридиент'
         verbose_name_plural = 'Ингредиенты в рецепте'
@@ -147,10 +146,10 @@ class IngredientRecipe(models.Model):
                 fields=['ingredient', 'recipe'],
                 name='unique_ingredient_recipe'
             )
-        ]        
+        ]
 
     def __str__(self):
-        return f'{self.recipe}: {self.ingredient.name}' 
+        return f'{self.recipe}: {self.ingredient.name}'
 
 
 class FavoriteRecipe(models.Model):

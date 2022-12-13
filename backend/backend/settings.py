@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,11 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '*'
-]
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,12 +20,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework.authtoken',
     'rest_framework',
-    'djoser',    
+    'rest_framework.authtoken',
+    'djoser',
     'django_filters',
-    'users.apps.UsersConfig',    
-    'recipes.apps.RecipesConfig',    
+    'users.apps.UsersConfig',
+    'recipes.apps.RecipesConfig',
     'api.apps.ApiConfig',
 ]
 
@@ -60,15 +57,9 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     'default': {
@@ -80,7 +71,6 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT', default='5432')
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -139,7 +129,6 @@ DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_ID_FIELD': 'id',
     'PASSWORD_RESET_CONFIRM_URL': 'set_password/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
     'PERMISSIONS': {
         'user': ['rest_framework.permissions.IsAuthenticated'],
         'user_list': ['rest_framework.permissions.AllowAny'],

@@ -12,7 +12,7 @@ class User(AbstractUser):
     )
     username = models.CharField(
         verbose_name="Логин",
-        max_length=150,        
+        max_length=150,
         unique=True,
     )
     first_name = models.CharField(
@@ -33,7 +33,7 @@ class User(AbstractUser):
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "first_name", "last_name", "password"] 
+    REQUIRED_FIELDS = ["username", "first_name", "last_name", "password"]
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -44,24 +44,24 @@ class User(AbstractUser):
                 name='unique_username_email'
             )
         ]
-    
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
 
 class Follow(models.Model):
     """Подписка."""
-    
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='follower',        
+        related_name='follower',
         verbose_name='Подписчик'
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='following',        
+        related_name='following',
         verbose_name='Автор'
     )
 
