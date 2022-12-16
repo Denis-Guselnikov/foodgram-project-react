@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend', 'localhost', '*']
+ALLOWED_HOSTS = ['62.84.122.1','backend', 'localhost', '*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -60,14 +60,6 @@ TEMPLATES = [
 
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 DATABASES = {
     'default': {
