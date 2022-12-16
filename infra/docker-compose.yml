@@ -1,15 +1,21 @@
 version: '3.3'
 services:
-
   db:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env
+      - ./.env  
+
+  frontend:
+    image: denis3232/foodgram_frontend:latest    
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      - backend
 
   backend:
-    image: denis3232/foodgram_backend:latest
+    image: denis3232/foodgram_back:latest    
     restart: always
     volumes:
       - static_value:/app/static/
@@ -18,13 +24,6 @@ services:
       - db
     env_file:
       - ./.env
-
-  frontend:
-    image: denis3232/foodgram_frontend:latest
-    volumes:
-      - ../frontend/:/app/result_build/
-    depends_on:
-      - backend
 
   nginx:
     image: nginx:1.19.3
@@ -37,8 +36,7 @@ services:
       - static_value:/var/html/static/
       - media_value:/var/html/media/
     depends_on:
-      - backend
-      - frontend
+      - backend      
 
 volumes:
   postgres_data:

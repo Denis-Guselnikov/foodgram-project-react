@@ -2,15 +2,14 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from recipes.models import (FavoriteRecipe, Ingredient, IngredientRecipe,
+                            Recipe, ShoppingCart, Tag)
 from rest_framework import filters, generics, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from recipes.models import (FavoriteRecipe, Ingredient, IngredientRecipe,
-                            Recipe, ShoppingCart, Tag)
 from users.models import Follow, User
 
 from . import serializers
@@ -128,10 +127,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
             user=request.user,
             recipe=recipe
         )
-        if request.method == "POST":
+        if request.method == 'POST':
             if recipe_in_shopping_cart.exists():
                 return Response(
-                    "Этот рецепт уже есть в списке покупок",
+                    'Этот рецепт уже есть в списке покупок',
                     status=status.HTTP_400_BAD_REQUEST
                 )
             else:
@@ -139,7 +138,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 serializer = serializers.ShortRecipeSerializer(recipe)
                 return Response(serializer.data,
                                 status=status.HTTP_201_CREATED)
-        else:
+
+        elif request.method == 'DELETE':
             if recipe_in_shopping_cart.exists():
                 recipe_in_shopping_cart.delete()
                 return Response(
@@ -164,14 +164,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
         if request.method == 'POST':
             if recipe_in_favorite.exists():
-                return Response("Этот рецепт уже есть в избранном",
+                return Response('Этот рецепт уже есть в избранном',
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 FavoriteRecipe.objects.create(user=request.user, recipe=recipe)
                 serializer = serializers.ShortRecipeSerializer(recipe)
                 return Response(serializer.data,
                                 status=status.HTTP_201_CREATED)
-        else:
+
+        elif request.method == 'DELETE':
             if recipe_in_favorite.exists():
                 recipe_in_favorite.delete()
                 return Response('Рецепт успешно удалён из избранного',
