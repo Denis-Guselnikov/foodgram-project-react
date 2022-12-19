@@ -75,9 +75,8 @@ class RecipePostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('id', 'tags', 'author', 'ingredients', 'is_favorited',
-                  'is_in_shopping_cart', 'name', 'image', 'text',
-                  'cooking_time',)
+        fields = ('id', 'tags', 'author', 'ingredients',
+                  'name', 'image', 'text', 'cooking_time',)
 
     def add_ingredients(self, recipe, ingredients):
         ingredients_recipe = list()
@@ -219,6 +218,7 @@ class IsSubscribeSerializer(serializers.ModelSerializer):
 
     def get_is_subscribed(self, obj):
         request = self.context.get('request')
-        if request.user.is_anonymous:
-            return False
-        return request.user.follower.filter(follow=obj.id).exists()
+        if request and hasattr(request, 'user'):
+            return (request.user.is_authenticated and request.user.follower.filter(follow=obj)
+                    .exists())
+        return False

@@ -15,7 +15,7 @@ services:
       - backend
 
   backend:
-    image: denis3232/foodgram_back:latest    
+    image: denis3232/foodgram_back:latest
     restart: always
     volumes:
       - static_value:/app/static/

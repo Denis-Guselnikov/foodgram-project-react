@@ -128,29 +128,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
             recipe=recipe
         )
         if request.method == 'POST':
-            if recipe_in_shopping_cart.exists():
-                return Response(
-                    'Этот рецепт уже есть в списке покупок',
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            else:
-                ShoppingCart.objects.create(user=request.user, recipe=recipe)
-                serializer = serializers.ShortRecipeSerializer(recipe)
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
+            ShoppingCart.objects.create(user=request.user, recipe=recipe)
+            serializer = serializers.ShortRecipeSerializer(recipe)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)
 
         elif request.method == 'DELETE':
-            if recipe_in_shopping_cart.exists():
-                recipe_in_shopping_cart.delete()
-                return Response(
-                    'Рецепт успешно удалён из списка покупок',
-                    status=status.HTTP_204_NO_CONTENT
-                )
-            else:
-                return Response(
-                    'Рецепт нельзя удалить, его нет в списке покупок',
-                    status.HTTP_400_BAD_REQUEST
-                )
+            recipe_in_shopping_cart.delete()
+            return Response(
+                'Рецепт успешно удалён из списка покупок',
+                status=status.HTTP_204_NO_CONTENT
+            )
 
     @action(
         detail=True,
@@ -163,25 +151,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
             recipe=recipe
         )
         if request.method == 'POST':
-            if recipe_in_favorite.exists():
-                return Response('Этот рецепт уже есть в избранном',
-                                status=status.HTTP_400_BAD_REQUEST)
-            else:
-                FavoriteRecipe.objects.create(user=request.user, recipe=recipe)
-                serializer = serializers.ShortRecipeSerializer(recipe)
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
+            FavoriteRecipe.objects.create(user=request.user, recipe=recipe)
+            serializer = serializers.ShortRecipeSerializer(recipe)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)
 
         elif request.method == 'DELETE':
-            if recipe_in_favorite.exists():
-                recipe_in_favorite.delete()
-                return Response('Рецепт успешно удалён из избранного',
-                                status.HTTP_204_NO_CONTENT)
-            else:
-                return Response(
-                    'Этот рецепт нельзя удалить, его нет в избранном',
-                    status.HTTP_400_BAD_REQUEST
-                )
+            recipe_in_favorite.delete()
+            return Response('Рецепт успешно удалён из избранного',
+                            status.HTTP_204_NO_CONTENT)
 
 
 class Subscribe(APIView):

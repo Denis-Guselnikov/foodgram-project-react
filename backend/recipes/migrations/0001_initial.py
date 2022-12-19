@@ -53,9 +53,7 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(upload_to='recipes/', verbose_name='Изображение')),
                 ('text', models.TextField(verbose_name='Описание Рецепта')),
                 ('pub_date', models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')),
-                ('cooking_time', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Время приготовления (в минутах)')),
-                ('is_favorited', models.BooleanField(default=False, verbose_name='В списке избанного')),
-                ('is_in_shopping_cart', models.BooleanField(default=False, verbose_name='В списке покупок')),
+                ('cooking_time', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Время приготовления (в минутах)')),                
             ],
             options={
                 'verbose_name': 'Рецепт',

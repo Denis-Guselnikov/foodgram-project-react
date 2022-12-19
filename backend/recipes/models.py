@@ -93,14 +93,6 @@ class Recipe(models.Model):
         default=0,
         validators=[MinValueValidator(1, 'Время приготовления должно быть больше 1 минуты.')]
     )
-    is_favorited = models.BooleanField(
-        verbose_name='В списке избанного',
-        default=False,
-    )
-    is_in_shopping_cart = models.BooleanField(
-        verbose_name='В списке покупок',
-        default=False,
-    )
 
     class Meta:
         verbose_name = 'Рецепт'
